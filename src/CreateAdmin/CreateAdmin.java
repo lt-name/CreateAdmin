@@ -27,16 +27,15 @@ public class CreateAdmin extends PluginBase implements Listener {
     private Config blocks, config;
     private Map<Integer, Item> inventoryItem = null;
     private Item[] items = null;
-    private ArrayList<String> banUseItems;
-    private ArrayList<Integer> banInteractBlocks, banInteractEntity;
+    private ArrayList<String> banUseItems, banInteractBlocks, banInteractEntity;
     private ArrayList<Player> playerOnSet = new ArrayList<>();
 
     public void onEnable() {
         saveDefaultConfig();
         this.config = new Config(getDataFolder() + "/config.yml", 2);
         this.banUseItems = (ArrayList<String>) this.config.getStringList("banUseItems");
-        this.banInteractBlocks = (ArrayList<Integer>) this.config.getIntegerList("banInteractBlocks");
-        this.banInteractEntity = (ArrayList<Integer>) this.config.getIntegerList("banInteractEntity");
+        this.banInteractBlocks = (ArrayList<String>) this.config.getStringList("banInteractBlocks");
+        this.banInteractEntity = (ArrayList<String>) this.config.getStringList("banInteractEntity");
         this.blocks = new Config(getDataFolder() + "/Blocks.yml", 2);
         getServer().getPluginManager().registerEvents(this, this);
         getLogger().info(" 加载成功...");
@@ -100,6 +99,14 @@ public class CreateAdmin extends PluginBase implements Listener {
 
     public String getStringID(Item item) {
         return item.getId() + ":" + item.getDamage();
+    }
+
+    public String getStringID(Block block) {
+        return block.getId() + "";
+    }
+
+    public String getStringID(Entity entity) {
+        return entity.getNetworkId() + "";
     }
 
     public void saveBanUseItems() {
@@ -183,21 +190,20 @@ public class CreateAdmin extends PluginBase implements Listener {
             Player player = event.getPlayer();
             Block block = event.getBlock();
             if (player != null && block != null) {
-                int id = block.getId();
                 if (player.isOp()) {
                     if (this.playerOnSet.contains(player)) {
                         event.setCancelled();
                         this.playerOnSet.remove(player);
-                        if (this.banInteractBlocks.contains(id)) {
-                            this.banInteractBlocks.remove(id);
-                            player.sendMessage(TextFormat.GREEN + "物品ID：" + id + "移除成功");
+                        if (this.banInteractBlocks.contains(this.getStringID(block))) {
+                            this.banInteractBlocks.remove(this.getStringID(block));
+                            player.sendMessage(TextFormat.GREEN + "物品ID：" + block.getId() + "移除成功");
                         }else {
-                            this.banInteractBlocks.add(id);
-                            player.sendMessage(TextFormat.GREEN + "物品ID：" + id + "添加成功");
+                            this.banInteractBlocks.add(this.getStringID(block));
+                            player.sendMessage(TextFormat.GREEN + "物品ID：" + block.getId() + "添加成功");
                         }
                         this.saveBanInteractBlocks();
                     }
-                }else if (player.getGamemode() == 1 && this.banInteractBlocks.contains(id)) {
+                }else if (player.getGamemode() == 1 && this.banInteractBlocks.contains(this.getStringID(block))) {
                     event.setCancelled();
                     player.sendMessage(TextFormat.RED + "无法在创造模式下和此物品交互！");
                 }
@@ -242,16 +248,16 @@ public class CreateAdmin extends PluginBase implements Listener {
                     if (this.playerOnSet.contains(player)) {
                         event.setCancelled();
                         this.playerOnSet.remove(player);
-                        if (this.banInteractEntity.contains(entity.getNetworkId())) {
-                            this.banInteractEntity.remove(entity.getNetworkId());
+                        if (this.banInteractEntity.contains(this.getStringID(entity))) {
+                            this.banInteractEntity.remove(this.getStringID(entity));
                             player.sendMessage(TextFormat.GREEN + "实体：" + entity.getNetworkId() + "移除成功");
                         }else {
-                            this.banInteractEntity.add(entity.getNetworkId());
+                            this.banInteractEntity.add(this.getStringID(entity));
                             player.sendMessage(TextFormat.GREEN + "实体：" + entity.getNetworkId() + "添加成功");
                         }
                         this.saveBanInteractEntity();
                     }
-                }else if (player.getGamemode() == 1 && this.banInteractEntity.contains(entity.getNetworkId())) {
+                }else if (player.getGamemode() == 1 && this.banInteractEntity.contains(this.getStringID(entity))) {
                     event.setCancelled();
                     player.sendMessage(TextFormat.RED + "无法在创造模式下和此实体交互！");
                 }
