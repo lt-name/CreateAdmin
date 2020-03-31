@@ -1,0 +1,19 @@
+name: CreateAdmin
+main: CreateAdmin.CreateAdmin
+version: "1.0.2"
+api:
+  - 1.0.0
+load: POSTWORLD
+author: 若水
+
+commands:
+  创造管理:
+    usage: /创造管理 help
+    description: "CreateAdmin 命令"
+    permission: CreateAdmin.a
+    aliases:
+      - createadmin
+      - CreateAdmin
+permissions:
+  CreateAdmin.a:
+    default: op

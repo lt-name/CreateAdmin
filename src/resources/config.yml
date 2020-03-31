@@ -1,0 +1,13 @@
+banUseItems:
+  - '46:0'
+banInteractBlocks:
+  - 205
+  - 218
+  - 54
+  - 146
+  - 145
+  - 154
+  - 130
+banInteractEntity:
+  - 96
+  - 98
