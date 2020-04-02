@@ -173,14 +173,14 @@ public class CreateAdmin extends PluginBase implements Listener {
             this.inventoryItem = player.getInventory().getContents();
             this.items = player.getInventory().getArmorContents();
             player.getInventory().clearAll();
-            player.sendMessage(TextFormat.GREEN + ">>" + TextFormat.GREEN + "已切换" + TextFormat.YELLOW + "创造" + TextFormat.GREEN + "模式 背包已临时缓存 (重启服务器消失)");
+            player.sendMessage(TextFormat.GREEN + ">> 已切换" + TextFormat.YELLOW + "创造" + TextFormat.GREEN + "模式 背包已临时缓存 (重启服务器消失)");
         } else if (event.getNewGamemode() == 0 || event.getNewGamemode() == 2) {
             player.getInventory().clearAll();
             if (!(this.inventoryItem == null || this.items == null)) {
                 player.getInventory().setContents(this.inventoryItem);
                 player.getInventory().setArmorContents(this.items);
             }
-            player.sendMessage(TextFormat.GREEN + ">>" + TextFormat.GREEN + "已切换" + TextFormat.YELLOW + (event.getNewGamemode() == 0 ? "生存" : "冒险") + TextFormat.GREEN + "模式 背包已回归");
+            player.sendMessage(TextFormat.GREEN + ">> 已切换" + TextFormat.YELLOW + (event.getNewGamemode() == 0 ? "生存" : "冒险") + TextFormat.GREEN + "模式 背包已回归");
         }
     }
 
@@ -215,7 +215,7 @@ public class CreateAdmin extends PluginBase implements Listener {
     public void onDropItem(PlayerDropItemEvent event) {
         if (!event.isCancelled()) {
             Player player = event.getPlayer();
-            if (player == null || player.isOp()) {
+            if (player == null || player.isOp() || player.getGamemode() != 1) {
                 return;
             }
             event.setCancelled();
