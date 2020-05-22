@@ -4,7 +4,7 @@ version: "1.0.3"
 api:
   - 1.0.0
 load: POSTWORLD
-author: 若水
+author: "若水"
 
 commands:
   创造管理:

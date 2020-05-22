@@ -6,7 +6,6 @@ import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.entity.Entity;
 import cn.nukkit.event.EventHandler;
-import cn.nukkit.event.EventPriority;
 import cn.nukkit.event.Listener;
 import cn.nukkit.event.block.BlockBreakEvent;
 import cn.nukkit.event.block.BlockPlaceEvent;
@@ -21,7 +20,6 @@ import java.util.Map;
 
 /**
  * @author 若水
- * @author lt_name
  */
 public class CreateAdmin extends PluginBase implements Listener {
     private Config blocks, config;
@@ -141,7 +139,7 @@ public class CreateAdmin extends PluginBase implements Listener {
         return false;
     }
 
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
         if (!event.isCancelled()) {
             Player player = event.getPlayer();
@@ -152,7 +150,7 @@ public class CreateAdmin extends PluginBase implements Listener {
         }
     }
 
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
         if (!event.isCancelled()) {
             Player player = event.getPlayer();
@@ -184,7 +182,7 @@ public class CreateAdmin extends PluginBase implements Listener {
         }
     }
 
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    @EventHandler
     public void onInteract(PlayerInteractEvent event) {
         if (!event.isCancelled()) {
             Player player = event.getPlayer();
@@ -211,7 +209,7 @@ public class CreateAdmin extends PluginBase implements Listener {
         }
     }
 
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    @EventHandler
     public void onDropItem(PlayerDropItemEvent event) {
         if (!event.isCancelled()) {
             Player player = event.getPlayer();
@@ -223,7 +221,7 @@ public class CreateAdmin extends PluginBase implements Listener {
         }
     }
 
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    @EventHandler
     public void onItemHeld(PlayerItemHeldEvent event) {
         if (!event.isCancelled()) {
             Player player = event.getPlayer();
@@ -238,7 +236,7 @@ public class CreateAdmin extends PluginBase implements Listener {
         }
     }
 
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    @EventHandler
     public void onInteractEntity(PlayerInteractEntityEvent event) {
         if (!event.isCancelled()) {
             Player player = event.getPlayer();
