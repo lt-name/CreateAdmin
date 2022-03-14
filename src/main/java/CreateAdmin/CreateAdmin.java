@@ -22,20 +22,30 @@ import java.util.Map;
  * @author 若水
  */
 public class CreateAdmin extends PluginBase implements Listener {
-    private Config blocks, config;
+
+    private Config blocks;
+    private Config config;
+
     private Map<Integer, Item> inventoryItem = null;
     private Item[] items = null;
-    private ArrayList<String> banUseItems, banInteractBlocks, banInteractEntity;
-    private ArrayList<Player> playerOnSet = new ArrayList<>();
+
+    private ArrayList<String> banUseItems;
+    private ArrayList<String> banInteractBlocks;
+    private ArrayList<String> banInteractEntity;
+    private final ArrayList<Player> playerOnSet = new ArrayList<>();
 
     public void onEnable() {
         saveDefaultConfig();
-        this.config = new Config(getDataFolder() + "/config.yml", 2);
+
+        this.config = new Config(this.getDataFolder() + "/config.yml", Config.YAML);
+        this.blocks = new Config(this.getDataFolder() + "/Blocks.yml", Config.YAML);
+
         this.banUseItems = (ArrayList<String>) this.config.getStringList("banUseItems");
         this.banInteractBlocks = (ArrayList<String>) this.config.getStringList("banInteractBlocks");
         this.banInteractEntity = (ArrayList<String>) this.config.getStringList("banInteractEntity");
-        this.blocks = new Config(getDataFolder() + "/Blocks.yml", 2);
+
         getServer().getPluginManager().registerEvents(this, this);
+
         getLogger().info(" 加载成功...");
     }
 
@@ -49,7 +59,7 @@ public class CreateAdmin extends PluginBase implements Listener {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (command.getName().equals("创造管理")) {
+        if ("创造管理".equals(command.getName()) || "CreateAdmin".equalsIgnoreCase(command.getName())) {
             if (sender instanceof Player) {
                 Player player = ((Player) sender).getPlayer();
                 if (player.isOp()) {
