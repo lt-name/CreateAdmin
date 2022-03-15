@@ -1,5 +1,6 @@
 package CreateAdmin;
 
+import CreateAdmin.utils.PlayerDataUtils;
 import cn.nukkit.Player;
 import cn.nukkit.block.Block;
 import cn.nukkit.command.Command;
@@ -15,8 +16,8 @@ import cn.nukkit.plugin.PluginBase;
 import cn.nukkit.utils.Config;
 import cn.nukkit.utils.TextFormat;
 
+import java.io.File;
 import java.util.ArrayList;
-import java.util.Map;
 
 /**
  * @author 若水
@@ -25,9 +26,6 @@ public class CreateAdmin extends PluginBase implements Listener {
 
     private Config blocks;
     private Config config;
-
-    private Map<Integer, Item> inventoryItem = null;
-    private Item[] items = null;
 
     private ArrayList<String> banUseItems;
     private ArrayList<String> banInteractBlocks;
@@ -177,18 +175,20 @@ public class CreateAdmin extends PluginBase implements Listener {
         if (player == null || player.isOp()) {
             return;
         }
-        if (event.getNewGamemode() == 1) {
-            this.inventoryItem = player.getInventory().getContents();
-            this.items = player.getInventory().getArmorContents();
+        if (event.getNewGamemode() == Player.CREATIVE) {
+            PlayerDataUtils.create(player, this).saveAll().saveToFile(this);
             player.getInventory().clearAll();
-            player.sendMessage(TextFormat.GREEN + ">> 已切换" + TextFormat.YELLOW + "创造" + TextFormat.GREEN + "模式 背包已临时缓存 (重启服务器消失)");
-        } else if (event.getNewGamemode() == 0 || event.getNewGamemode() == 2) {
+            player.getUIInventory().clearAll();
+            player.getEnderChestInventory().clearAll();
+            player.sendMessage(TextFormat.GREEN + ">> 已切换" + TextFormat.YELLOW + "创造" + TextFormat.GREEN + "模式 生存背包已保存");
+        } else if (event.getNewGamemode() == Player.SURVIVAL || event.getNewGamemode() == Player.ADVENTURE) {
             player.getInventory().clearAll();
-            if (!(this.inventoryItem == null || this.items == null)) {
-                player.getInventory().setContents(this.inventoryItem);
-                player.getInventory().setArmorContents(this.items);
+            player.getUIInventory().clearAll();
+            player.getEnderChestInventory().clearAll();
+            if (new File(this.getDataFolder() + "/PlayerStatusData/" + player.getName() + ".json").exists()) {
+                PlayerDataUtils.create(player, this).restoreAll();
             }
-            player.sendMessage(TextFormat.GREEN + ">> 已切换" + TextFormat.YELLOW + (event.getNewGamemode() == 0 ? "生存" : "冒险") + TextFormat.GREEN + "模式 背包已回归");
+            player.sendMessage(TextFormat.GREEN + ">> 已切换" + TextFormat.YELLOW + (event.getNewGamemode() == Player.SURVIVAL ? "生存" : "冒险") + TextFormat.GREEN + "模式 生存背包已回归");
         }
     }
 
