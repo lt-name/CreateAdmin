@@ -1,6 +1,6 @@
 name: CreateAdmin
 main: CreateAdmin.CreateAdmin
-version: "1.0.4-SNAPSHOT"
+version: "1.0.4"
 api:
   - 1.0.0
 load: POSTWORLD

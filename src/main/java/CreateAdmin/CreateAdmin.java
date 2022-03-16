@@ -18,9 +18,11 @@ import cn.nukkit.utils.TextFormat;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * @author 若水
+ * @author LT_Name
  */
 public class CreateAdmin extends PluginBase implements Listener {
 
@@ -30,7 +32,7 @@ public class CreateAdmin extends PluginBase implements Listener {
     private ArrayList<String> banUseItems;
     private ArrayList<String> banInteractBlocks;
     private ArrayList<String> banInteractEntity;
-    private final ArrayList<Player> playerOnSet = new ArrayList<>();
+    private final HashSet<Player> playerOnSet = new HashSet<>();
 
     public void onEnable() {
         saveDefaultConfig();
@@ -185,8 +187,10 @@ public class CreateAdmin extends PluginBase implements Listener {
             player.getInventory().clearAll();
             player.getUIInventory().clearAll();
             player.getEnderChestInventory().clearAll();
-            if (new File(this.getDataFolder() + "/PlayerStatusData/" + player.getName() + ".json").exists()) {
+            File file = new File(this.getDataFolder() + "/PlayerStatusData/" + player.getName() + ".json");
+            if (file.exists()) {
                 PlayerDataUtils.create(player, this).restoreAll();
+                file.delete();
             }
             player.sendMessage(TextFormat.GREEN + ">> 已切换" + TextFormat.YELLOW + (event.getNewGamemode() == Player.SURVIVAL ? "生存" : "冒险") + TextFormat.GREEN + "模式 生存背包已回归");
         }

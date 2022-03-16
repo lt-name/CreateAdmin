@@ -6,7 +6,7 @@
 
     <groupId>cn.lanink</groupId>
     <artifactId>CreateAdmin</artifactId>
-    <version>1.0.4-SNAPSHOT</version>
+    <version>1.0.4<!-- -SNAPSHOT--></version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -91,12 +91,12 @@
             <version>23.0.0</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
+        <!--<dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.22</version>
             <scope>provided</scope>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>cn.nukkit</groupId>
             <artifactId>nukkit</artifactId>
