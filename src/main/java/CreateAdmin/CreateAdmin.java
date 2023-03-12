@@ -177,13 +177,7 @@ public class CreateAdmin extends PluginBase implements Listener {
         if (player == null || player.isOp()) {
             return;
         }
-        if (event.getNewGamemode() == Player.CREATIVE) {
-            PlayerDataUtils.create(player, this).saveAll().saveToFile(this);
-            player.getInventory().clearAll();
-            player.getUIInventory().clearAll();
-            player.getEnderChestInventory().clearAll();
-            player.sendMessage(TextFormat.GREEN + ">> 已切换" + TextFormat.YELLOW + "创造" + TextFormat.GREEN + "模式 生存背包已保存");
-        } else if (event.getNewGamemode() == Player.SURVIVAL || event.getNewGamemode() == Player.ADVENTURE) {
+        if (event.getNewGamemode() == Player.SURVIVAL || event.getNewGamemode() == Player.ADVENTURE) {
             player.getInventory().clearAll();
             player.getUIInventory().clearAll();
             player.getEnderChestInventory().clearAll();
@@ -193,6 +187,12 @@ public class CreateAdmin extends PluginBase implements Listener {
                 file.delete();
             }
             player.sendMessage(TextFormat.GREEN + ">> 已切换" + TextFormat.YELLOW + (event.getNewGamemode() == Player.SURVIVAL ? "生存" : "冒险") + TextFormat.GREEN + "模式 生存背包已回归");
+        } else {
+            PlayerDataUtils.create(player, this).saveAll().saveToFile(this);
+            player.getInventory().clearAll();
+            player.getUIInventory().clearAll();
+            player.getEnderChestInventory().clearAll();
+            player.sendMessage(TextFormat.GREEN + ">> 已切换" + TextFormat.YELLOW + "创造" + TextFormat.GREEN + "模式 生存背包已保存");
         }
     }
 
